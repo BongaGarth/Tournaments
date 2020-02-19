@@ -1,0 +1,65 @@
+﻿@model PagedList.IPagedList<Template.Model.ViewModels.TournamentViewModel>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Index";
+}
+<div class="page-title">
+    <div class="title_left">
+        <h3>Tournaments List</h3>
+    </div>
+</div>
+<div class="row">
+    @if (Model.Count < 1)
+    {
+        <strong class="text-danger">No data found</strong>
+        <a href="@Url.Action("Create","Tournament")" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Add</a>
+    }
+    else
+    {
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <table id="doctors" class="data table table-striped no-margin">
+                        <thead>
+                            <tr>
+                                <th> Tournament ID </th>
+                                <th>Tournament  Name </th>
+                                <th><a href="@Url.Action("Create","Tournament")" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Add</a></th>
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                    <tr>
+                        <td> @item.TournamentID </td>
+                        <td><a href="@Url.Action("TournamentEvents","Tournament",new {TournamentID=item.TournamentID,events=item.Events })">@item.TournamentName</a></td>
+
+
+                    </tr>
+                        }
+                    </table>
+                    <br />
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                    @Html.PagedListPager(Model, Page_No => Url.Action("Index",
+                    new { Page_No, Sorting_Order = ViewBag.CurrentSortOrder, Filter_Value = ViewBag.FilterValue }))
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@section scripts{
+    <script>
+$(document).ready(function () {
+            $("#doctors").DataTable();
+        });</script>
+}
+
+
+
+
+
+
+
+
+
+

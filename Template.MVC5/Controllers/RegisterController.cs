@@ -7,6 +7,7 @@ using Template.Model;
 
 namespace Template.MVC5.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RegisterController : Controller
     {
         private IAuthenticationManager AuthenticationManager
@@ -19,14 +20,20 @@ namespace Template.MVC5.Controllers
         // GET: Register
         public ActionResult Index()
         {
-            return View();
+            var registerbusiness = new RegisterBusiness();
+
+            var newuser = new RegisterModel
+            {
+                Roles = registerbusiness.GetAllRoles()
+            };
+            return View(newuser);
         }
 
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<ActionResult> Index(RegisterModel objRegisterModel)
         {
-            var registerbusiness = new Template.BusinessLogic.RegisterBusiness();
+            var registerbusiness = new RegisterBusiness();
 
             if (registerbusiness.FindUser(objRegisterModel.UserName, AuthenticationManager))
             {
@@ -34,11 +41,11 @@ namespace Template.MVC5.Controllers
                 return View(objRegisterModel);
             }
 
-            var result = await registerbusiness.RegisterUser(objRegisterModel, AuthenticationManager);
+            var result = await registerbusiness.RegisterUser(objRegisterModel,objRegisterModel.RoleId, AuthenticationManager);
 
             if (result)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Material");
             }
             else
             {
@@ -48,19 +55,6 @@ namespace Template.MVC5.Controllers
             return View(objRegisterModel);
         }
 
-        public ActionResult TestInsert()
-        {
-            var clinicbusiness = new ClinicBusiness();
 
-            clinicbusiness.AddClinic(
-                new ClinicView()
-                {
-                    ClinicId = 0,
-                    ClinicName = "Test",
-                    User = new RegisterModel() {UserName = "cassimv", Password = "password"}
-                }, AuthenticationManager);
-
-            return RedirectToAction("Index");
-        }
     }
 }

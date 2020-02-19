@@ -1,0 +1,166 @@
+﻿@model Template.MVC5.Core.MateriEquipmentViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h4>Client Details </h4>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                    <div class="profile_img">
+                        <div id="crop-avatar">
+                            <!-- Current avatar -->
+                            <img class="img-responsive avatar-view" src="~/Content/images/user.png" alt="Avatar" title="Change the avatar">
+                        </div>
+                    </div>
+                    <h3>@Model.ClientName</h3>
+                    <ul class="list-unstyled user_data">
+                        <li>
+                            <i class="fa fa-briefcase user-profile-icon"></i> @Model.ClientLastName
+                        </li>
+                        <li>
+                            <i class="fa fa-map-marker user-profile-icon"></i> @Model.Address
+                        </li>
+                        <li>
+                            <i class="fa fa-phone"></i> @Model.CellPhone
+                        </li>
+                        <li><i class="fa fa-inbox"></i>@Model.Email</li>
+
+                    </ul>
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                        @using (Html.BeginForm("Index", "InvoiceMaterial", FormMethod.Post))
+                        {
+                            @Html.HiddenFor(model => model.ClientLastName)
+                            @Html.HiddenFor(model => model.Address)
+                            @Html.HiddenFor(model => model.CellPhone)
+                            @Html.HiddenFor(model => model.Email)
+                            @Html.HiddenFor(model => model.ClientName)
+                            <div id="myTabContent" class="tab-content">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <strong class="text-danger">Choosen Equipments</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                                            <!-- start patient today -->
+                                            <table id="patients" class="data table table-striped no-margin">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Name</th>
+                                                        <th>Rate</th>
+                                                        <th>Quantity</th>
+                                                        <th></th>
+                                                    </tr>
+
+                                                </thead>
+                                                <tbody>
+                                                    @for (int i = 0; i < Model.Equipment.Count; i++)
+                                                    {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.HiddenFor(m => m.Equipment[i].Name)
+                                                            @Html.HiddenFor(m => m.Equipment[i].Rate)
+                                                            @Html.HiddenFor(m => m.Equipment[i].ProjectId)
+                                                            @Html.HiddenFor(m => m.Equipment[i].Quantity)
+                                                        </td>
+                                                        <td>@Model.Equipment[i].Name</td>
+                                                        <td>@Model.Equipment[i].Rate</td>
+                                                        <td>@Model.Equipment[i].Quantity</td>
+
+                                                    </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+
+                                            <!-- end patient today -->
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <strong class="text-success">Choosen Materilas</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                                            <table id="patients" class="data table table-striped no-margin">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Name</th>
+                                                        <th>Price</th>
+                                                        <th>Quantity</th>
+                                                        <th></th>
+                                                    </tr>
+
+                                                </thead>
+                                                <tbody>
+                                                    @for (int i = 0; i < Model.Materials.Count; i++)
+                                                    {
+                                                    <tr>
+
+                                                        <td>
+                                                            @Html.HiddenFor(m => m.Materials[i].Name)
+                                                            @Html.HiddenFor(m => m.Materials[i].Price)
+                                                            @Html.HiddenFor(m => m.Materials[i].ProjectId)
+                                                            @Html.HiddenFor(m => m.Materials[i].Quantity)
+
+                                                        </td>
+                                                        <td>@Model.Materials[i].Name</td>
+                                                        <td>@Model.Materials[i].Price</td>
+                                                        <td>@Model.Materials[i].Quantity</td>
+                                                    </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            using (Html.BeginForm("Edit", "YourControllerName"))
+                            {
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="hidden" name="ProjectId" value="@Model.ProjectId" />
+                                        <input type="submit" value="Send Qutation" class="btn btn-success" />
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#patients").DataTable({
+                "scrollY": "300px",
+                "scrollCollapse": true,
+                "paging": false,
+                "filter": false,
+                "info": false
+
+            });
+        });
+    </script>
+}

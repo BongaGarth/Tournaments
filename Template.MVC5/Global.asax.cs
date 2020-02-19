@@ -14,6 +14,13 @@ namespace Template.MVC5
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+
+
+
+
+
+            UnityConfig.RegisterComponents();
+
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BootstrapBundleConfig.RegisterBundles();
             InitializeBusiness.Initilize();

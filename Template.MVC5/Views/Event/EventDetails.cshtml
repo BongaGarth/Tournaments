@@ -1,0 +1,71 @@
+﻿@model PagedList.IPagedList<Template.Model.ViewModels.EventDetailsViewModel>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Index";
+}
+<div class="page-title">
+    <div class="title_left">
+        <h3>@Session["EventName"] Details</h3>
+        <a href="@Url.Action("TournamentEvents","Tournament",new { TournamentID = Session["TournamentID"] })" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>Tournaments List</a>
+    </div>
+</div>
+<div class="row">
+    @if (Model.Count < 1)
+    {
+        <strong class="text-danger">No data found</strong>
+        <br />
+        <a href="@Url.Action("Create","Event",new {TournamentID=Session["TournamentID"]})" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Add Detail</a>
+    }
+    else
+    {
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <table id="doctors" class="data table table-striped no-margin">
+                        <thead>
+                            <tr>
+                                <th> EventDetailID  </th>
+                                <th> EventID</th>
+                                <th>EventDetailsName </th>
+                                <th> EventDetailNumber </th>
+                                <th>EventOdd </th>
+                                <th> FinishingPosition</th>
+                                <th> FirstTimer</th>
+                                <th><a href="@Url.Action("Create","Event",new {TournamentID=Session["TournamentID"]})" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Add Event</a></th>
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                    <tr>
+
+                        <td> @item.EventDetailID</td>
+                        <td> @item.EventID </td>
+                        <td> @item.EventDetailsName </td>
+                        <td> @item.EventDetailNumber </td>
+                        <td> @item.EventOdd </td>
+                        <td> @item.FinishingPosition </td>
+                        <td> @item.FirstTimer </td>
+                    </tr>
+                        }
+                    </table>
+                    <br />
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                    @Html.PagedListPager(Model, Page_No => Url.Action("Index",
+                    new { Page_No, Sorting_Order = ViewBag.CurrentSortOrder, Filter_Value = ViewBag.FilterValue }))
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@section scripts{
+    <script>
+$(document).ready(function () {
+            $("#doctors").DataTable();
+        });</script>
+}
+
+
+
+
+

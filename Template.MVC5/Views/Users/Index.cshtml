@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Template.Model.ViewModels.UsersViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/shared/_Layout.cshtml";
+}
+
+<div class="page-title">
+    <div class="title_left">
+        <h3>System Users</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_content">
+                <table id="roles" class="data table table-striped no-margin">
+                    <thead>
+                        <tr>
+                            <th> Username </th>
+                            <th>Role </th>
+                            <th>Account Status</th>
+                            <th><a href="@Url.Action("Index","Register")" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Add New User</a></th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td> @item.Email </td>
+                            <td>@item.RoleName</td>
+                            <td>
+                                @{
+                                    if (item.IsActive == true)
+                                    {
+                                        <a href="#" style="padding: 3px 10px 3px 10px; background-color:green " class="badge" readonly>Active</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" style="padding: 3px 10px 3px 10px; background-color:red " class="badge" readonly>Disabled</a>
+                                    }
+                            }
+                        </td>
+                    </tr>
+                }
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+@section scripts{
+    <script>$(document).ready(function () {
+            $("#roles").DataTable();
+        });</script>
+}

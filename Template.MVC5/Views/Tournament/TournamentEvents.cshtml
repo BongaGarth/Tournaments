@@ -1,0 +1,69 @@
+﻿@model PagedList.IPagedList<Template.Model.ViewModels.EventViewModel>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Index";
+}
+<div class="page-title">
+    <div class="title_left">
+        <h3>@Session["TournamentName"] Events</h3>
+        <a href="@Url.Action("Index","Tournament")" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>Tournaments List</a>
+    </div>
+</div>
+<div class="row">
+    @if (Model.Count < 1)
+    {
+        <strong class="text-danger">No data found</strong>
+        <br />
+        <a href="@Url.Action("Create","EventDetail",new {EventID=Session["EventID"]})" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Add Event Detail</a>
+    }
+    else
+    {
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <table id="doctors" class="data table table-striped no-margin">
+                        <thead>
+                            <tr>
+                                <th> Event ID  </th>
+                                <th> Event Name </th>
+                                <th>Event Number </th>
+                                <th> Event Date </th>
+                                <th>Event Time </th>
+                                <th> AutoClose</th>
+                                <th><a href="@Url.Action("Create","Event",new {TournamentID=Session["TournamentID"]})" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Add Event</a></th>
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                    <tr>
+
+                        <td> @item.EventID</td>
+                        <td><a href="@Url.Action("EventDetails","Event",new {EventID=item.EventID})">@item.EventName</a></td>
+                        <td> @item.EventName </td>
+                        <td> @item.EventNumber </td>
+                        <td> @item.EvenStarTime </td>
+                        <td> @item.EventEndTime </td>
+                        <td> @item.AutoClose </td>
+                    </tr>
+                        }
+                    </table>
+                    <br />
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                    @Html.PagedListPager(Model, Page_No => Url.Action("Index",
+                    new { Page_No, Sorting_Order = ViewBag.CurrentSortOrder, Filter_Value = ViewBag.FilterValue }))
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@section scripts{
+    <script>
+$(document).ready(function () {
+            $("#doctors").DataTable();
+        });</script>
+}
+
+
+
+

@@ -18,6 +18,11 @@ namespace Template.MVC5.Controllers
                 return HttpContext.GetOwinContext().Authentication;
             }
         }
+        private readonly LoginBusiness _loginbusiness;
+        public LoginController(LoginBusiness loginbusiness)
+        {
+            _loginbusiness = loginbusiness;
+        }
 
         // GET: Login
         [AllowAnonymous]
@@ -30,14 +35,13 @@ namespace Template.MVC5.Controllers
         [ValidateAntiForgeryToken]
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> Index(LoginModel model, string returnUrl)
+        public async Task<ActionResult> Index(LoginModel model, string ReturnUrl)
         {
             if (ModelState.IsValid)
             {
-                var loginbusiness = new LoginBusiness();
-                var result = await loginbusiness.LogUserIn(model, AuthenticationManager);
+                var result = await _loginbusiness.LogUserIn(model, AuthenticationManager);
                 if (result)       
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToLocal(ReturnUrl);
                 else
                 {
                     ModelState.AddModelError("", "Invalid username or password.");
@@ -45,6 +49,7 @@ namespace Template.MVC5.Controllers
             }
 
             return View(model);
+
         }
 
         //
@@ -54,7 +59,7 @@ namespace Template.MVC5.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Login");
         }
 
         private ActionResult RedirectToLocal(string returnUrl)

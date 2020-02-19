@@ -1,43 +1,52 @@
 ﻿@model Template.Model.RegisterModel
+
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/shared/_BootstrapLayout.basic.cshtml";
+    Layout = "~/Views/shared/_Layout.cshtml";
 }
-<div>
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
-        <fieldset>
-            <!-- Form Name -->
-            <legend>Register</legend>
+@using (Html.BeginForm("Index", "Register", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Create a new account.</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Surname, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.RoleId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.RoleId, new SelectList(Model.Roles, "Name", "Name"), "-----Choose role-----", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-primary btn-xs" value="Register" />
+        </div>
+    </div>
+}
 
-            <!-- Text input-->
-            <div class="control-group">
-                <label class="control-label">@Html.LabelFor(m => m.UserName)</label>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.UserName)
-                    <p class="help-block">@Html.ValidationMessageFor(m => m.UserName)</p>
-                </div>
-            </div>
-
-            <!-- Password input-->
-            <div class="control-group">
-                <label class="control-label">@Html.LabelFor(m => m.Password)</label>
-                <div class="controls">
-                    @Html.PasswordFor(m => m.Password)
-                    <p class="help-block">@Html.ValidationMessageFor(m => m.Password)</p>
-                </div>
-            </div>
-
-            <!-- Button -->
-            <div class="control-group">
-                <div class="controls">
-                    <button id="Log In" name="Log In" class="btn btn-primary">Log In</button>
-                </div>
-            </div>
-
-        </fieldset>
-    }
-</div>
-
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

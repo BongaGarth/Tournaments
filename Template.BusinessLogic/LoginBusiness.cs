@@ -11,15 +11,14 @@ using Template.Model;
 
 namespace Template.BusinessLogic
 {
-    public class LoginBusiness
+    public class LoginBusiness  : ILoginBusiness
     {
-        public UserManager<Template.Data.ApplicationUser> UserManager { get; set; }
+        public UserManager<ApplicationUser> UserManager { get; set; }
 
         public LoginBusiness()
         {
-            UserManager = new UserManager<Template.Data.ApplicationUser>(new UserStore<Template.Data.ApplicationUser>(new DataContext()));
+            UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new DataContext()));
         }
-
         public async Task<bool> LogUserIn(LoginModel objLoginModel, IAuthenticationManager authenticationManager)
         {
             var user = await UserManager.FindAsync(objLoginModel.UserName, objLoginModel.Password);
@@ -30,12 +29,12 @@ namespace Template.BusinessLogic
             }
             return false;
         }
-
-        private async Task SignInAsync(Template.Data.ApplicationUser user, bool isPersistent, IAuthenticationManager authenticationManager)
+        public async Task SignInAsync(ApplicationUser user, bool isPersistent, IAuthenticationManager authenticationManager)
         {
             authenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
             var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
             authenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);
         }
+
     }
 }

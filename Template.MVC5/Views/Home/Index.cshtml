@@ -1,23 +1,7 @@
-﻿@model List<Template.Model.ClinicView>
+﻿
 @{
-    Layout = "~/Views/Shared/_BootstrapLayout.basic.cshtml";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Welcome Home</title>
-</head>
-<body>
-    <div>
-        <table class="table">
-            @foreach (var item in Model)
-            {
-                <tr><td>@item.ClinicName</td></tr>
-            }
-        </table>
-    </div>
-</body>
-</html>
+ 

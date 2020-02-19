@@ -7,6 +7,8 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Template.Data.Configurations;
+using Template.Data.Entities;
 
 namespace Template.Data
 {
@@ -16,15 +18,15 @@ namespace Template.Data
 
 
         public DataContext()
-            : base("Conn")
+            : base("Con")
         {
 
         }
-
         //#region Properties
-        
-        public DbSet<Clinic> Clinic { get; set; }
-
+        public DbSet<Tournament> Tournaments { get; set; }
+        public DbSet<Event> Events { get; set; }
+        //public DbSet<EventDetails> EventDetails { get; set; }
+        //public DbSet<EventDetailsStatus> DetailsStatuses { get; set; }
         //#endregion
 
         public new IDbSet<TEntity> Set<TEntity>() where TEntity : class
@@ -63,7 +65,13 @@ namespace Template.Data
             EntityTypeConfiguration<ApplicationRole> entityTypeConfiguration1 = modelBuilder.Entity<ApplicationRole>().ToTable("AspNetRoles");
 
             entityTypeConfiguration1.Property((ApplicationRole r) => r.Name).IsRequired();
+            //Entities Configurations
+            //Ivoice Material
+            var invoice_material_config = new TournamentConfiguration(modelBuilder);
+            //Invoice Equipemnt
+            var invoice_equipemnt_config = new EventConfiguration(modelBuilder);
 
+            //var eventdetails_config = new EventDetailsConfiguration(modelBuilder);
         }
     }
 }

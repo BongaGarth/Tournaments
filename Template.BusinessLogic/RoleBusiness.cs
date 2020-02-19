@@ -11,7 +11,7 @@ using Template.Model;
 
 namespace Template.BusinessLogic
 {
-    public class RoleBusiness
+    public class RoleBusiness: IRolesBusiness
     {
         private RoleManager<ApplicationRole> RoleManager { get; set; }
 

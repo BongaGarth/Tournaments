@@ -1,0 +1,54 @@
+﻿@using System.Web.Optimization
+@model Template.Model.ViewModels.TournamentModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="row ">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+
+        <div class="x_panel">
+            <div class="x_content">
+                @using (Html.BeginForm("Create", "Tournament", FormMethod.Post, new { @class = "form-horizontal form-label-left", autocomplete = "off" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <span class="section">Add Material</span>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Name</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            @Html.TextBoxFor(m => m.TournamentName, new { @class = "form-control col-md-7 col-xs-12" })
+                            @Html.ValidationMessageFor(m => m.TournamentName)
+                        </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
+                            <input type="submit" value="Create" class="btn btn-success btn-xs" />|
+                            @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-warning btn-xs" })
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                //clearBtn: true,
+                todayHighlight: true,
+                //todayBtn: true,
+                //todayBtn: 'linked',
+                orientation: "top left",
+                autoclose: true
+            });
+        });
+    </script>
+}
+
+

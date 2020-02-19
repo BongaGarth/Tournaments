@@ -15,10 +15,8 @@ namespace Template.MVC.Controllers
 
         public ActionResult Index()
         {
-            var clinicbusiness = new ClinicBusiness();
 
-            return View(clinicbusiness.GetAllClinics());
+            return View();
         }
-
     }
 }
